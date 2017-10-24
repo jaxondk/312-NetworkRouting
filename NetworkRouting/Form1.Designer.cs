@@ -55,9 +55,9 @@
             // 
             // randomSeedBox
             // 
-            this.randomSeedBox.Location = new System.Drawing.Point(94, 318);
+            this.randomSeedBox.Location = new System.Drawing.Point(89, 318);
             this.randomSeedBox.Name = "randomSeedBox";
-            this.randomSeedBox.Size = new System.Drawing.Size(100, 20);
+            this.randomSeedBox.Size = new System.Drawing.Size(78, 20);
             this.randomSeedBox.TabIndex = 1;
             this.randomSeedBox.Text = "1";
             // 
@@ -67,6 +67,7 @@
             this.label1.Location = new System.Drawing.Point(13, 321);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(75, 13);
+            this.label1.TabIndex = 15;
             this.label1.Text = "Random Seed";
             // 
             // generateButton
@@ -85,6 +86,7 @@
             this.pictureBox.Location = new System.Drawing.Point(16, 12);
             this.pictureBox.Name = "pictureBox";
             this.pictureBox.Size = new System.Drawing.Size(600, 300);
+            this.pictureBox.TabIndex = 14;
             this.pictureBox.TabStop = false;
             this.pictureBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDown);
             // 
@@ -94,6 +96,7 @@
             this.seedUsedLabel.Location = new System.Drawing.Point(483, 352);
             this.seedUsedLabel.Name = "seedUsedLabel";
             this.seedUsedLabel.Size = new System.Drawing.Size(133, 13);
+            this.seedUsedLabel.TabIndex = 13;
             this.seedUsedLabel.Text = "Random Seed Used: none";
             // 
             // label2
@@ -102,6 +105,7 @@
             this.label2.Location = new System.Drawing.Point(199, 321);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(27, 13);
+            this.label2.TabIndex = 12;
             this.label2.Text = "Size";
             // 
             // sizeBox
@@ -128,13 +132,14 @@
             this.label3.Location = new System.Drawing.Point(13, 350);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(70, 13);
+            this.label3.TabIndex = 11;
             this.label3.Text = "Source Node";
             // 
             // sourceNodeBox
             // 
             this.sourceNodeBox.Location = new System.Drawing.Point(89, 344);
             this.sourceNodeBox.Name = "sourceNodeBox";
-            this.sourceNodeBox.Size = new System.Drawing.Size(70, 20);
+            this.sourceNodeBox.Size = new System.Drawing.Size(77, 20);
             this.sourceNodeBox.TabIndex = 4;
             this.sourceNodeBox.TextChanged += new System.EventHandler(this.sourceNodeBox_Changed);
             // 
@@ -152,6 +157,7 @@
             this.label4.Location = new System.Drawing.Point(172, 350);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(67, 13);
+            this.label4.TabIndex = 10;
             this.label4.Text = "Target Node";
             // 
             // label5
@@ -160,6 +166,7 @@
             this.label5.Location = new System.Drawing.Point(324, 350);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(80, 13);
+            this.label5.TabIndex = 9;
             this.label5.Text = "Total Path Cost";
             // 
             // pathCostBox
@@ -168,35 +175,40 @@
             this.pathCostBox.Location = new System.Drawing.Point(410, 344);
             this.pathCostBox.Name = "pathCostBox";
             this.pathCostBox.Size = new System.Drawing.Size(67, 20);
+            this.pathCostBox.TabIndex = 8;
             // 
             // timeLabel
             // 
             this.timeLabel.AutoSize = true;
-            this.timeLabel.Location = new System.Drawing.Point(13, 373);
+            this.timeLabel.Location = new System.Drawing.Point(26, 373);
             this.timeLabel.Name = "timeLabel";
-            this.timeLabel.Size = new System.Drawing.Size(74, 13);
+            this.timeLabel.Size = new System.Drawing.Size(57, 13);
+            this.timeLabel.TabIndex = 7;
             this.timeLabel.Text = "Array Time";
             // 
             // arrayTimeBox
             // 
             this.arrayTimeBox.Enabled = false;
             this.arrayTimeBox.Location = new System.Drawing.Point(89, 370);
-            this.arrayTimeBox.Name = "arrayBox";
-            this.arrayTimeBox.Size = new System.Drawing.Size(58, 20);
+            this.arrayTimeBox.Name = "arrayTimeBox";
+            this.arrayTimeBox.Size = new System.Drawing.Size(78, 20);
+            this.arrayTimeBox.TabIndex = 6;
             // 
             // heapTimeBox
             // 
             this.heapTimeBox.Enabled = false;
             this.heapTimeBox.Location = new System.Drawing.Point(237, 370);
-            this.heapTimeBox.Name = "heapBox";
-            this.heapTimeBox.Size = new System.Drawing.Size(58, 20);
+            this.heapTimeBox.Name = "heapTimeBox";
+            this.heapTimeBox.Size = new System.Drawing.Size(73, 20);
+            this.heapTimeBox.TabIndex = 4;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(173, 373);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(78, 13);
+            this.label6.Size = new System.Drawing.Size(59, 13);
+            this.label6.TabIndex = 5;
             this.label6.Text = "Heap Time";
             // 
             // differenceBox
@@ -204,29 +216,32 @@
             this.differenceBox.Enabled = false;
             this.differenceBox.Location = new System.Drawing.Point(385, 370);
             this.differenceBox.Name = "differenceBox";
-            this.differenceBox.Size = new System.Drawing.Size(58, 20);
+            this.differenceBox.Size = new System.Drawing.Size(67, 20);
+            this.differenceBox.TabIndex = 2;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(312, 373);
+            this.label7.Location = new System.Drawing.Point(324, 373);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(67, 13);
+            this.label7.Size = new System.Drawing.Size(60, 13);
+            this.label7.TabIndex = 3;
             this.label7.Text = "X Speedup";
             // 
             // arrayCheckBox
             // 
-            this.arrayCheckBox.Enabled = true;
             this.arrayCheckBox.Location = new System.Drawing.Point(600, 315);
             this.arrayCheckBox.Name = "arrayCheckBox";
             this.arrayCheckBox.Size = new System.Drawing.Size(15, 15);
+            this.arrayCheckBox.TabIndex = 0;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(520, 315);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(67, 13);
+            this.label8.Size = new System.Drawing.Size(76, 13);
+            this.label8.TabIndex = 1;
             this.label8.Text = "Compare Array";
             // 
             // Form1
@@ -256,7 +271,7 @@
             this.Controls.Add(this.generateButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.randomSeedBox);
-            this.Name = "Network Routing";
+            this.Name = "Form1";
             this.Text = "Network Routing";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);

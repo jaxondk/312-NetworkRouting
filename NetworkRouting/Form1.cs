@@ -156,11 +156,17 @@ namespace NetworkRouting
             if(ready)
             {
                 clearSome();
-                solveButton_Clicked();  // Here is the new entry point
+                System.Diagnostics.Stopwatch timer = new System.Diagnostics.Stopwatch();
+                timer.Start();
+                solveButton_Clicked(true);  // Here is the new entry point
+                timer.Stop();
+                arrayTimeBox.Text = ""+timer.Elapsed.TotalSeconds;
+
+                //do the same thing but solveButton_Clicked(false) for heap implementation
             }
         }
         
-        private void solveButton_Clicked()
+        private void solveButton_Clicked(bool useArray)
         {
             // *** Implement this method, use the variables "startNodeIndex" and "stopNodeIndex" as the indices for your start and stop points, respectively ***
 
@@ -174,16 +180,20 @@ namespace NetworkRouting
             }
             dist[startNodeIndex] = 0;
 
-            IPriorityQ pq = new ArrayQ();
+            IPriorityQ pq;
+            //if (useArray)
+                pq = new ArrayQ();
+            //else
+            //    pq = new HeapQ();
             pq.Makequeue(dist);
             while(pq.NotEmpty())
             {
                 int u = pq.Deletemin();
                 foreach (int v in adjacencyList.ElementAt(u))
                 {
-                    if(dist[v] > dist[u] + EuclDist(u, v))
+                    if(dist[v] > dist[u] + EuclDist(points.ElementAt(u), points.ElementAt(v)))
                     {
-                        dist[v] = dist[u] + EuclDist(u, v);
+                        dist[v] = dist[u] + EuclDist(points.ElementAt(u), points.ElementAt(v));
                         prev[v] = u;
                         pq.OnKeyDecreased(v);
                     }
@@ -201,13 +211,11 @@ namespace NetworkRouting
             }
 
             drawPath(path);
+            labelPath(path);
         }
 
-        private double EuclDist(int u, int v)
+        private double EuclDist(PointF pt1, PointF pt2)
         {
-            PointF pt1 = points.ElementAt(u);
-            PointF pt2 = points.ElementAt(v);
-
             return Math.Sqrt(Math.Pow((pt1.X - pt2.X),2) + Math.Pow((pt1.Y - pt2.Y), 2));
         }
 
@@ -219,6 +227,19 @@ namespace NetworkRouting
             //Draw lines to screen.
             if (pts.Count == 1) return;
             graphics.DrawLines(pen, pts.ToArray());
+        }
+
+        private void labelPath(List<PointF> pts)
+        {
+            Font drawFont = new Font("Arial", 10);
+            SolidBrush drawBrush = new SolidBrush(Color.Black);
+
+            for (int i = 0; i < pts.Count - 1; i++)
+            {
+                PointF midpt = new PointF((pts[i].X + pts[i + 1].X) / 2, (pts[i].Y + pts[i + 1].Y) / 2);
+                String dist = "" + (int)EuclDist(pts[i], pts[i + 1]);
+                graphics.DrawString(dist, drawFont, drawBrush, midpt);
+            }
         }
 
         private Boolean startStopToggle = true;
