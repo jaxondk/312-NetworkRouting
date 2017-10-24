@@ -7,7 +7,7 @@ namespace NetworkRouting
 {
     public interface IPriorityQ
     {
-        IPriorityQ Makequeue(double[] dist);
+        void Makequeue(double[] dist);
         void Insert(int v);
         int Deletemin();
         void OnKeyDecreased(int v); //Decreasekey method in book
@@ -16,18 +16,18 @@ namespace NetworkRouting
 
     public class ArrayQ : IPriorityQ
     {
-        List<int> q = new List<int>();
+        private List<int> q = new List<int>();
+        private double[] dist;
 
         public ArrayQ() {}
 
-        public IPriorityQ Makequeue(double[] dist)
+        public void Makequeue(double[] dist)
         {
-            ArrayQ newQ = new ArrayQ();
+            this.dist = dist;
             for(int i = 0; i < dist.Length; i++)
             {
                 Insert(i);
             }
-            return newQ;
         }
 
         public void Insert(int v)
@@ -37,14 +37,14 @@ namespace NetworkRouting
 
         public int Deletemin()
         {
-            int min = q[0];
+            int minDistIndex = q[0];
             for(int i = 1; i < q.Count; i++)
             {
-                min = (q[i] < min) ? i : min;
+                minDistIndex = (dist[q[i]] < dist[minDistIndex]) ? q[i] : minDistIndex;
             }
 
-            q.RemoveAt(min);
-            return min;
+            q.Remove(minDistIndex);
+            return minDistIndex;
         }
 
         public void OnKeyDecreased(int v) { return; }

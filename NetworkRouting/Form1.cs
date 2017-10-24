@@ -191,8 +191,16 @@ namespace NetworkRouting
             }
             //****************** End Dijkstra's **********************//
 
+            //Get shortest path from prev. Draw it to screen
+            List<PointF> path = new List<PointF>();
+            int curr = stopNodeIndex;
+            while(curr != -1)
+            {
+                path.Add(points.ElementAt(curr));
+                curr = prev[curr];
+            }
 
-
+            drawPath(path);
         }
 
         private double EuclDist(int u, int v)
@@ -201,6 +209,16 @@ namespace NetworkRouting
             PointF pt2 = points.ElementAt(v);
 
             return Math.Sqrt(Math.Pow((pt1.X - pt2.X),2) + Math.Pow((pt1.Y - pt2.Y), 2));
+        }
+
+        private void drawPath(List<PointF> pts)
+        {
+            // Create pen.
+            Pen pen = new Pen(Color.Red, 1);
+
+            //Draw lines to screen.
+            if (pts.Count == 1) return;
+            graphics.DrawLines(pen, pts.ToArray());
         }
 
         private Boolean startStopToggle = true;
