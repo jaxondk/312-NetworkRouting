@@ -156,20 +156,30 @@ namespace NetworkRouting
             if(ready)
             {
                 clearSome();
-                System.Diagnostics.Stopwatch timer = new System.Diagnostics.Stopwatch();
-                timer.Start();
-                solveButton_Clicked(true);  // Here is the new entry point
-                timer.Stop();
-                arrayTimeBox.Text = ""+timer.Elapsed.TotalSeconds;
 
-                //do the same thing but solveButton_Clicked(false) for heap implementation
+                System.Diagnostics.Stopwatch timerH = new System.Diagnostics.Stopwatch();
+                timerH.Start();
+                solveButton_Clicked(false);  
+                timerH.Stop();
+                heapTimeBox.Text = "" + timerH.Elapsed.TotalSeconds;
+
+                if (arrayCheckBox.Checked) //do the same thing but solveButton_Clicked(true) for array implementation
+                {
+                    System.Diagnostics.Stopwatch timerA = new System.Diagnostics.Stopwatch();
+                    timerA.Start();
+                    solveButton_Clicked(true);
+                    timerA.Stop();
+                    arrayTimeBox.Text = "" + timerA.Elapsed.TotalSeconds;
+
+                    differenceBox.Text = "" + timerA.Elapsed.TotalSeconds / timerH.Elapsed.TotalSeconds;
+                }
+
+
             }
         }
         
         private void solveButton_Clicked(bool useArray)
         {
-            // *** Implement this method, use the variables "startNodeIndex" and "stopNodeIndex" as the indices for your start and stop points, respectively ***
-
             //***************** Dijkstra's algorithm: *****************//
             double[] dist = new double[points.Count];
             int[] prev = new int[points.Count];
@@ -181,10 +191,10 @@ namespace NetworkRouting
             dist[startNodeIndex] = 0;
 
             IPriorityQ pq;
-            //if (useArray)
+            if (useArray)
                 pq = new ArrayQ();
-            //else
-            //    pq = new HeapQ();
+            else
+                pq = new HeapQ();
             pq.Makequeue(dist);
             while(pq.NotEmpty())
             {
@@ -234,12 +244,16 @@ namespace NetworkRouting
             Font drawFont = new Font("Arial", 10);
             SolidBrush drawBrush = new SolidBrush(Color.Black);
 
+            double totalDist = 0;
             for (int i = 0; i < pts.Count - 1; i++)
             {
                 PointF midpt = new PointF((pts[i].X + pts[i + 1].X) / 2, (pts[i].Y + pts[i + 1].Y) / 2);
-                String dist = "" + (int)EuclDist(pts[i], pts[i + 1]);
+                double legDist = EuclDist(pts[i], pts[i + 1]);
+                totalDist += legDist;
+                String dist = "" + (int)legDist;
                 graphics.DrawString(dist, drawFont, drawBrush, midpt);
             }
+            pathCostBox.Text = "" + totalDist;
         }
 
         private Boolean startStopToggle = true;

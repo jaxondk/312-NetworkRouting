@@ -59,7 +59,7 @@
             this.randomSeedBox.Name = "randomSeedBox";
             this.randomSeedBox.Size = new System.Drawing.Size(78, 20);
             this.randomSeedBox.TabIndex = 1;
-            this.randomSeedBox.Text = "1";
+            this.randomSeedBox.Text = "1337";
             // 
             // label1
             // 
@@ -114,7 +114,7 @@
             this.sizeBox.Name = "sizeBox";
             this.sizeBox.Size = new System.Drawing.Size(100, 20);
             this.sizeBox.TabIndex = 2;
-            this.sizeBox.Text = "20";
+            this.sizeBox.Text = "2000";
             // 
             // solveButton
             // 
@@ -141,6 +141,7 @@
             this.sourceNodeBox.Name = "sourceNodeBox";
             this.sourceNodeBox.Size = new System.Drawing.Size(77, 20);
             this.sourceNodeBox.TabIndex = 4;
+            this.sourceNodeBox.Text = "1756";
             this.sourceNodeBox.TextChanged += new System.EventHandler(this.sourceNodeBox_Changed);
             // 
             // targetNodeBox
@@ -149,6 +150,7 @@
             this.targetNodeBox.Name = "targetNodeBox";
             this.targetNodeBox.Size = new System.Drawing.Size(70, 20);
             this.targetNodeBox.TabIndex = 5;
+            this.targetNodeBox.Text = "1226";
             this.targetNodeBox.TextChanged += new System.EventHandler(this.targetNodeBox_Changed);
             // 
             // label4
@@ -230,6 +232,8 @@
             // 
             // arrayCheckBox
             // 
+            this.arrayCheckBox.Checked = true;
+            this.arrayCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
             this.arrayCheckBox.Location = new System.Drawing.Point(600, 315);
             this.arrayCheckBox.Name = "arrayCheckBox";
             this.arrayCheckBox.Size = new System.Drawing.Size(15, 15);
