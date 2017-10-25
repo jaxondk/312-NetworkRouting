@@ -16,22 +16,24 @@ namespace NetworkRouting
 
     public class HeapQ : IPriorityQ
     {
-        private List<int> q = new List<int>();
+        private List<int> q;
         private double[] dist;
         private List<int> QindexOf;
 
-        public void Makequeue(double[] dist) //O(|V|log|V|)
+        //O(|V|log|V|) - Does insert |V| times
+        public void Makequeue(double[] dist)
         {
-            q.Add(-1); //Have the first item in the array be garbage so that it's 1-indexed
             this.dist = dist;
             QindexOf = new List<int>(dist.Length);
+            q = new List<int>(dist.Length);
+            q.Add(-1); //Have the first item in the array be garbage so that it's 1-indexed
             for (int v = 0; v < dist.Length; v++)
             {
                 Insert(v);
             }
         }
 
-        //This is the bubbleUp function. O(log|V|)
+        //O(log|V|) from BubbleUp. Other ops are O(1)
         public void Insert(int v)
         {
             QindexOf.Add(q.Count);
@@ -39,6 +41,8 @@ namespace NetworkRouting
             BubbleUp(v);
         }
 
+        //O(log|V|) - I use a look up array for the Q-index, so that's O(1). 
+        //There can be at most log|V| swaps (height of tree), and each swap does only O(1) ops.
         private void BubbleUp(int v)
         {
             int Qi = QindexOf[v]; //O(1)
@@ -55,6 +59,8 @@ namespace NetworkRouting
             QindexOf[v] = Qi; //update QindexOf the bubbledUp node
         }
 
+        //O(log|V|) - O(1) ops except for siftdown function. 
+        //Siftdown has same complexity as bubbleUp - O(log|V|) - for same reasons
         public int Deletemin()
         {
             int v = q[1]; //remember, q is 1-indexed
@@ -69,7 +75,8 @@ namespace NetworkRouting
 
                 //sift the root down:
                 int childQi = SmallestChildQi(currQi);
-                while (childQi != 0 && dist[q[childQi]] < dist[lastV]) //while current has children and the distance of the smallest child < the distance of the previously last node
+                while (childQi != 0 && dist[q[childQi]] < dist[lastV]) //while current has children and 
+                                                                       //the distance of the smallest child < the distance of the previously last node
                 {
                     q[currQi] = q[childQi]; //put smallest child at current position
                     QindexOf[q[currQi]] = currQi; //update QindexOf child to be parent's old index
@@ -84,7 +91,8 @@ namespace NetworkRouting
             QindexOf[v] = -1;
             return v;
         }
-
+        
+        //O(1) - all O(1) lookups or arithmetic done one time.
         private int SmallestChildQi(int parent)
         {
             //Left child = parent index * 2 
@@ -99,12 +107,13 @@ namespace NetworkRouting
                 return (dist[q[c1]] < dist[q[c2]]) ? c1 : c2; //smallest child
         }
 
+        //O(log|V|) - just calls BubbleUp
         public void OnKeyDecreased(int v)
         {
-            //int i = q.IndexOf(v); //O(|V|)
-            BubbleUp(v);//, i);
+            BubbleUp(v);
         }
 
+        //O(1)
         public bool NotEmpty()
         {
             return q.Count > 1; //q[0] is garbage, so q empty when 1 element in it
@@ -116,13 +125,15 @@ namespace NetworkRouting
 
     public class ArrayQ : IPriorityQ
     {
-        private List<int> q = new List<int>();
+        private List<int> q;
         private double[] dist;
 
         public ArrayQ() {}
 
+        //O(|V|) - call insert |V| times
         public void Makequeue(double[] dist)
         {
+            q = new List<int>(dist.Length);
             this.dist = dist;
             for (int v = 0; v < dist.Length; v++)
             {
@@ -130,25 +141,29 @@ namespace NetworkRouting
             }
         }
 
+        //O(1) - Don't need to ever resize my q array, so constant time insertions
         public void Insert(int v)
         {
             q.Add(v);
         }
 
+        //O(|V|) - iterate over |V| and do simple O(1) operation
         public int Deletemin()
         {
             int minDistIndex = q[0];
-            for(int i = 1; i < q.Count; i++)
+            for(int i = 1; i < q.Count; i++) //O(|V|)
             {
                 minDistIndex = (dist[q[i]] < dist[minDistIndex]) ? q[i] : minDistIndex;
             }
 
-            q.Remove(minDistIndex);
+            q.Remove(minDistIndex); //O(|V|)
             return minDistIndex;
         }
 
+        //O(1)
         public void OnKeyDecreased(int v) { return; }
 
+        //O(1)
         public bool NotEmpty()
         {
             return q.Count > 0;

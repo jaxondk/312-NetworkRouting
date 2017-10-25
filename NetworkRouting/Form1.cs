@@ -177,12 +177,14 @@ namespace NetworkRouting
 
             }
         }
-        
+
+        //O(|V|) * (O(OnKeyDecreased) + O(Deletemin))
         private void solveButton_Clicked(bool useArray)
         {
             //***************** Dijkstra's algorithm: *****************//
             double[] dist = new double[points.Count];
             int[] prev = new int[points.Count];
+            //O(|V|)
             for(int i = 0; i < adjacencyList.Count; i++)
             {
                 dist[i] = Int32.MaxValue;
@@ -196,9 +198,12 @@ namespace NetworkRouting
             else
                 pq = new HeapQ();
             pq.Makequeue(dist);
+            //O(|V|) * (O(OnKeyDecreased) + O(Deletemin))
             while(pq.NotEmpty())
             {
                 int u = pq.Deletemin();
+
+                //O(3) * O(OnKeyDecreased)
                 foreach (int v in adjacencyList.ElementAt(u))
                 {
                     if(dist[v] > dist[u] + EuclDist(points.ElementAt(u), points.ElementAt(v)))
@@ -212,8 +217,14 @@ namespace NetworkRouting
             //****************** End Dijkstra's **********************//
 
             //Get shortest path from prev. Draw it to screen
+            if (prev[stopNodeIndex] == -1)
+            {
+                displayNoPath();
+                return;
+            }
             List<PointF> path = new List<PointF>();
             int curr = stopNodeIndex;
+            //O(|V|)
             while(curr != -1)
             {
                 path.Add(points.ElementAt(curr));
@@ -229,6 +240,17 @@ namespace NetworkRouting
             return Math.Sqrt(Math.Pow((pt1.X - pt2.X),2) + Math.Pow((pt1.Y - pt2.Y), 2));
         }
 
+        //O(1)
+        private void displayNoPath()
+        {
+            Font drawFont = new Font("Arial", 14);
+            SolidBrush drawBrush = new SolidBrush(Color.Black);
+            PointF midpt = new PointF((points[startNodeIndex].X + points[stopNodeIndex].X) / 2, (points[startNodeIndex].Y + points[stopNodeIndex].Y) / 2);
+            graphics.DrawString("No Path Exists", drawFont, drawBrush, midpt);
+            pathCostBox.Text = "INFINITY";
+        }
+
+        //O(|V|)
         private void drawPath(List<PointF> pts)
         {
             // Create pen.
@@ -239,6 +261,7 @@ namespace NetworkRouting
             graphics.DrawLines(pen, pts.ToArray());
         }
 
+        //O(|V|)
         private void labelPath(List<PointF> pts)
         {
             Font drawFont = new Font("Arial", 10);
