@@ -18,11 +18,13 @@ namespace NetworkRouting
     {
         private List<int> q = new List<int>();
         private double[] dist;
+        private List<int> QindexOf;
 
         public void Makequeue(double[] dist) //O(|V|log|V|)
         {
             q.Add(-1); //Have the first item in the array be garbage so that it's 1-indexed
             this.dist = dist;
+            QindexOf = new List<int>(dist.Length);
             for (int v = 0; v < dist.Length; v++)
             {
                 Insert(v);
@@ -32,22 +34,25 @@ namespace NetworkRouting
         //This is the bubbleUp function. O(log|V|)
         public void Insert(int v)
         {
-            int Qi = q.Count; //q.Count will be the q-index of the inserted node
+            QindexOf.Add(q.Count);
             q.Add(v);
-            BubbleUp(v, Qi);
+            BubbleUp(v);
         }
 
-        private void BubbleUp(int v, int Qi)
+        private void BubbleUp(int v)
         {
+            int Qi = QindexOf[v]; //O(1)
             int parentQi = Qi / 2;
 
             while (Qi != 1 && dist[q[parentQi]] > dist[v]) //while not at root and while parent's key is greater than inserted node's key
             {
                 q[Qi] = q[parentQi]; //put parent in child's place
+                QindexOf[q[Qi]] = Qi; //update QindexOf parent to be child's old index
                 Qi = parentQi; //increment current to parent's position
                 parentQi = Qi / 2; //find parent of current's new position
             }
             q[Qi] = v; //put v in it's appropriate position
+            QindexOf[v] = Qi; //update QindexOf the bubbledUp node
         }
 
         public int Deletemin()
@@ -61,19 +66,22 @@ namespace NetworkRouting
             {
                 q[1] = lastV; //put last at root
                 int currQi = 1;
-                //sift the root down
+
+                //sift the root down:
                 int childQi = SmallestChildQi(currQi);
                 while (childQi != 0 && dist[q[childQi]] < dist[lastV]) //while current has children and the distance of the smallest child < the distance of the previously last node
                 {
                     q[currQi] = q[childQi]; //put smallest child at current position
+                    QindexOf[q[currQi]] = currQi; //update QindexOf child to be parent's old index
                     currQi = childQi; //set current = smallest child
                     childQi = SmallestChildQi(currQi); //get new smallest child
                 }
 
                 q[currQi] = lastV; //put lastV in it's appropriate position
+                QindexOf[lastV] = currQi;
             }
             //********** end siftdown ************//
-
+            QindexOf[v] = -1;
             return v;
         }
 
@@ -88,13 +96,13 @@ namespace NetworkRouting
             else if (c2 >= q.Count)
                 return c1; //only child
             else
-                return (dist[q[c1]] < dist[q[c2]]) ? c1 : c2;
+                return (dist[q[c1]] < dist[q[c2]]) ? c1 : c2; //smallest child
         }
 
         public void OnKeyDecreased(int v)
         {
-            int i = q.IndexOf(v);
-            BubbleUp(v, i);
+            //int i = q.IndexOf(v); //O(|V|)
+            BubbleUp(v);//, i);
         }
 
         public bool NotEmpty()
@@ -102,6 +110,9 @@ namespace NetworkRouting
             return q.Count > 1; //q[0] is garbage, so q empty when 1 element in it
         }
     }
+
+
+
 
     public class ArrayQ : IPriorityQ
     {
